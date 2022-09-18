@@ -1,63 +1,42 @@
-# assimilate-databricks
-A repo to assimilate databricks
+# Project 1
 
-## API Getting Started
+## Overview
+This project build a microservice, command line tool that links to a big data system. Azure Databricks is used to operate data and handle queries.
 
-![databricks-api](https://user-images.githubusercontent.com/58792/189719737-fcdaf61f-93d2-415b-8eea-ebb96143187d.png)
-
-
-
-## Setup auth
-
-[databricks-python](https://docs.microsoft.com/en-us/azure/databricks/dev-tools/python-api)
-
-Place in Codespace secrets
-* [unix, linux, mac](https://docs.microsoft.com/en-us/azure/databricks/dev-tools/python-api#unixlinuxandmacos)
-
+## Setup
+Use make to install required packages.
 ```bash
-DATABRICKS_HOST
-DATABRICKS_TOKEN
+make
+```
+## Microsoft Azure and Databricks
+The Databricks service is hold on Microsoft Azure. 
+
+We need the following four secrests to connect and communicate with our Databrick cluster.
+```DATABRICKS_HOST```
+```DATABRICKS_HTTP_PATH```
+```DATABRICKS_SERVER_HOSTNAME```
+```DATABRICKS_TOKEN```
+
+
+## Test Databricks Connections
+We can run this line of code to see if Databricks is successfully connected and configured.
+```
+databricks clusters list --output JSON
 ```
 
+## CLI interface
+```click``` is used to build a CLI interface 
+To execute default query:
+```
+python3 ./query.py cli-query
+```
 
-## Test out CLI
+## Web Interface using FastAPI
+```FastAPI``` to build a microservice that enables users to query in a RESTful way. Use the following command to start the service.
 
 ```
-databricks clusters list --output JSON | jq
-databricks fs ls dbfs:/
-databricks jobs list --output JSON | jq
+python3 ./fastapi-app.py
 ```
-## Remote connect
+A simple welcome message will be displayed.
 
-[databricks-connect](https://docs.databricks.com/dev-tools/databricks-connect.html)
-
-## Databricks SQL Connector
-
-[Setup table first!](https://docs.databricks.com/dbfs/databricks-datasets.html)
-
-[sql remote](https://docs.databricks.com/dev-tools/python-sql-connector.html)
-https://docs.databricks.com/integrations/bi/jdbc-odbc-bi.html#connection-details-cluster
-
-
-## Comparing to Dask
-
-An alternative solution to Databricks is https://tutorial.dask.org/00_overview.html[Dask] or [Ray](https://docs.ray.io/en/latest/data/dask-on-ray.html).
-
-### Distributed compute
-
-* [Quickstart distributed compute example](https://distributed.dask.org/en/stable/quickstart.html)
-* [For Advanced users (HDFS wordcount Enron)](https://distributed.dask.org/en/stable/examples/word-count.html)
-
-### Hands on Enron
-
-* [Download data](https://www.kaggle.com/datasets/wcukierski/enron-email-dataset) from Kaggle and upload by right-click on explorer in GitHub Codespaces
-* place in a "datasets" directory and add this directory to your `.gitignore`.  This ensures you don't check in a 1GB file to GitHub.
-
-### Streamlit Example
-
-Enable enron...
-
-`streamlit hello --server.enableCORS=false`
-`streamlit run hello_streamlit_enron.py --server.enableCORS=false`
-
-
+Add ```/query``` at the end of the url, the default query will be executed and the return value will be displayed.
